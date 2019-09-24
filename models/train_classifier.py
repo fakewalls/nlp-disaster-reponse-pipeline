@@ -19,7 +19,7 @@ nltk.download(['punkt', 'wordnet', 'averaged_perceptron_tagger'])
 
 
 def load_data(database_filepath):
-    engine = create_engine(f'sqlite:///{database_filepath}')
+    engine = create_engine('sqlite:///' + str(database_filepath))
     df = pd.read_sql_query("select * from MessagesCategoriesClean;", engine)
     X = df['message'].values
     y = df[['related', 'request', 'offer',

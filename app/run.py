@@ -42,6 +42,21 @@ def index():
     # TODO: Below is an example - modify to extract data for your own visuals
     genre_counts = df.groupby('genre').count()['message']
     genre_names = list(genre_counts.index)
+
+    cat_df = df[['related', 'request', 'offer',
+       'aid_related', 'medical_help', 'medical_products', 'search_and_rescue',
+       'security', 'military', 'child_alone', 'water', 'food', 'shelter',
+       'clothing', 'money', 'missing_people', 'refugees', 'death', 'other_aid',
+       'infrastructure_related', 'transport', 'buildings', 'electricity',
+       'tools', 'hospitals', 'shops', 'aid_centers', 'other_infrastructure',
+       'weather_related', 'floods', 'storm', 'fire', 'earthquake', 'cold',
+       'other_weather', 'direct_report']]
+
+    cat_counts = cat_df.sum()
+    cat_names = cat_df.columns.tolist()
+    cat_sort = [(c,n) for c,n in sorted(zip(cat_counts, cat_names))]
+    cat_counts_sorted = [tup[0] for tup in cat_sort]
+    cat_names_sorted = [tup[1] for tup in cat_sort]
     
     # create visuals
     # TODO: Below is an example - modify to create your own visuals
@@ -50,11 +65,12 @@ def index():
             'data': [
                 Bar(
                     x=genre_names,
-                    y=genre_counts
+                    y=genre_counts,
                 )
             ],
-
+            'orientation': 'h',
             'layout': {
+                'orientation': 'h',
                 'title': 'Distribution of Message Genres',
                 'yaxis': {
                     'title': "Count"
@@ -63,7 +79,38 @@ def index():
                     'title': "Genre"
                 }
             }
+        },    
+        {
+            'data': [
+                {
+                    "x": cat_counts_sorted,
+                    "y": cat_names_sorted,
+                    "type": "bar",
+                    "orientation": "h"
+                }
+            ],
+            'layout': {
+                'title': 'Distribution of Message Categories',
+                'yaxis': {
+                    'title': "Category Names",
+                },
+                'xaxis': {
+                    'title': 'Count',
+                    'range': [
+                        0,
+                        21000
+                    ],
+                },
+                'margin': {
+                    'l': 180,
+                    'pad': 4
+                },
+                'height': 700,
+                'autosize': True
+            }
         }
+
+
     ]
     
     # encode plotly graphs in JSON

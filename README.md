@@ -50,3 +50,12 @@ $ pip install -r requirements.txt
 ### App
 * run.py contains main logic to run the Flask app, view functions, as well as functions to load and tokenize data from the db.
 * template/ contains HTML templates for the initial homepage and the message classification response.
+
+### Data
+* disaster_categories.csv contains raw category-labeled data, including: id, semicolon-delimited categories with binary values.
+* disaster_messages.csv contains raw message data, including: id, message translated to english, original message, genre.
+* process_data.py cleans, transforms, merges, stores category and message data into the DisasterResponse.db.
+
+### Models
+* train_classifier.py loads message and category data from db, splits data into features and targets (X,y), tokenizes data, passes data to GridSearchCV which runs the data through a pipeline of transformations and classifier while testing for best parameters.
+* classifier.pkl persists the classifier fitted in train_classifier.py for use on future predictions

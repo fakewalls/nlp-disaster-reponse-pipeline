@@ -40,7 +40,7 @@ $ pip install -r requirements.txt
 3. Navigate to http://0.0.0.0:3001/
 
 
-## Flask Application Structure 
+## Application Structure 
 ```
 .
 |──────nlp-message-classifier-pipeline/

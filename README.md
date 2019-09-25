@@ -1,4 +1,4 @@
-# Disaster Response Pipeline Project
+# Disaster Response Message Classification
 
 Flask application that uses natural language processing to classifiy disaster messages (e.g. real-time tweets) by category in order to help identify geniune relief requests and route resources.
 
@@ -44,4 +44,9 @@ $ pip install -r requirements.txt
 2. Run the following command in the app's directory to run your web app.
     `python run.py`
 
-3. Go to http://0.0.0.0:3001/
+3. Navigate to http://0.0.0.0:3001/
+
+
+### App
+* run.py contains main logic to run the Flask app, view functions, as well as functions to load and tokenize data from the db.
+* template/ contains HTML templates for the initial homepage and the message classification response.

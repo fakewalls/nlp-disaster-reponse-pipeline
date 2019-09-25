@@ -17,8 +17,8 @@ from sklearn.metrics import classification_report
 nltk.download(['punkt', 'wordnet', 'averaged_perceptron_tagger'])
 
 
-
 def load_data(database_filepath):
+    """Returns features and targets as Numpy arrays (X,y). Category names as list"""
     engine = create_engine('sqlite:///' + str(database_filepath))
     df = pd.read_sql_query("select * from MessagesCategoriesClean;", engine)
     X = df['message'].values
@@ -41,7 +41,9 @@ def load_data(database_filepath):
 
     return X, y, category_names
 
+
 def tokenize(text):
+    """Converts messages into list of lemmatized words"""
     tokens = word_tokenize(text)
     lemmatizer = WordNetLemmatizer()
 
@@ -54,6 +56,7 @@ def tokenize(text):
 
 
 def build_model():
+    """Instantiates and returns instance of GridSearchCV as model. Pipeline is used to perform transformations before passing data to RandomForestClassifier"""
     pipeline = Pipeline([
         ('vect', CountVectorizer(tokenizer=tokenize)),
         ('tfidf', TfidfTransformer()),
@@ -68,13 +71,17 @@ def build_model():
     
     return cv
 
+
 def evaluate_model(model, X_test, y_test, category_names):
+    """Prints classification report for each category based on test data. Classification report includes precision, recall, f1-score, and support"""
     y_pred = model.predict(X_test)
     for i, column in enumerate(category_names):
         print(column)
         print(classification_report([y[i] for y in y_test], [y[i] for y in y_pred]))
 
+
 def save_model(model, model_filepath):
+    """Persists the model via pickling"""
     pickle.dump(model, open(model_filepath, 'wb'))
 
 

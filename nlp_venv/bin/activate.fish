@@ -57,7 +57,7 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV "/Users/matthewlucich/Desktop/nlp-disaster-reponse-pipeline/app/nlp_venv"
+set -gx VIRTUAL_ENV "/Users/matthewlucich/Desktop/nlp-disaster-reponse-pipeline/nlp_venv"
 
 # https://github.com/fish-shell/fish-shell/issues/436 altered PATH handling
 if test (echo $FISH_VERSION | tr "." "\n")[1] -lt 3

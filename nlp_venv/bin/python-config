@@ -1,4 +1,4 @@
-#!/Users/matthewlucich/Desktop/nlp-disaster-reponse-pipeline/app/nlp_venv/bin/python
+#!/Users/matthewlucich/Desktop/nlp-disaster-reponse-pipeline/nlp_venv/bin/python
 
 import sys
 import getopt

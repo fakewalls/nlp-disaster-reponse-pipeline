@@ -4,19 +4,21 @@ import pandas as pd
 from sqlalchemy import create_engine
 
 def load_data(messages_filepath, categories_filepath):
+    """Converts message and category CSVs into Pandas dataframes, merges into one, then returns dataframe"""
     messages = pd.read_csv(messages_filepath)
     categories = pd.read_csv(categories_filepath)
     df = messages.merge(categories, on='id')
     return df
 
 def clean_data(df):
+    """Expands semicolon delimited categories into their own df columns and slices values to return only 1 or 0"""
     categories = df['categories'].str.split(pat=';', expand=True)
 
     row = categories.loc[0]
     category_colnames = row.apply(lambda x: x[:-2])
     categories.columns = category_colnames
     for column in categories:
-        # set each value to be the last character of the string
+        # sets each value to be the last character of the string (0 or 1)
         categories[column] = categories[column].apply(lambda x: x[-1])
         categories[column] = pd.to_numeric(categories[column])
 
@@ -26,6 +28,7 @@ def clean_data(df):
     return df2
     
 def save_data(df, database_filename):
+    """Saves dataframe of messages and categories to SQLite database"""
     engine = create_engine('sqlite:///data/DisasterResponse.db')
     df.to_sql('MessagesCategoriesClean', engine, index=False)
 

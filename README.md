@@ -4,9 +4,25 @@ Flask application that uses natural language processing to classifiy disaster me
 
 ## Installation
 
-Install with pip:
+Recommend you create a virtual environment
 
+```bash
+$: virtualenv venv
 ```
+
+and activate it
+
+```bash
+# Linux / Mac
+$: source venv/bin/activate
+
+# windows
+> venv/Scripts/activate
+```
+
+then install all required packages
+
+```bash
 $ pip install -r requirements.txt
 ```
 

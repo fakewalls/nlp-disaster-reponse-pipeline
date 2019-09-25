@@ -1,5 +1,38 @@
 # Disaster Response Pipeline Project
 
+Flask application that uses natural language processing to classifiy disaster messages (e.g. real-time tweets) by category in order to help identify geniune relief requests and route resources.
+
+## Installation
+
+Install with pip:
+
+```
+$ pip install -r requirements.txt
+```
+
+## Flask Application Structure 
+```
+.
+|──────nlp-message-classifier-pipeline/
+| |────app/
+| | |────templates/
+| | | |────go.html
+| | | |────master.html
+| | |────run.py
+| |────data/
+| | |────disaster_categories.csv
+| | |────disaster_messages.csv
+| | |────DisasterResponse.db
+| | |────process_data.py
+| |────models/
+| | |────classifier.pkl
+| | |────train_classifier.pkl
+|──────.gitignore
+|──────README.md
+|──────requirements.txt
+
+```
+
 ### Instructions:
 1. Run the following commands in the project's root directory to set up your database and model.
 

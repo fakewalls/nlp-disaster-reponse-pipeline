@@ -1,6 +1,6 @@
 # Disaster Response Message Classification
 
-Flask application that uses natural language processing to classifiy disaster messages (e.g. real-time tweets) by category in order to help identify geniune relief requests and route resources.
+A Flask application that uses natural language processing to classifiy disaster messages (e.g. real-time tweets) by category in order to help identify geniune relief requests and route resources.
 
 ## Installation
 

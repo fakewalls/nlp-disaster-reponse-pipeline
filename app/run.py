@@ -39,15 +39,7 @@ def index():
     genre_counts = df.groupby('genre').count()['message']
     genre_names = list(genre_counts.index)
 
-    cat_df = df[['related', 'request', 'offer',
-       'aid_related', 'medical_help', 'medical_products', 'search_and_rescue',
-       'security', 'military', 'child_alone', 'water', 'food', 'shelter',
-       'clothing', 'money', 'missing_people', 'refugees', 'death', 'other_aid',
-       'infrastructure_related', 'transport', 'buildings', 'electricity',
-       'tools', 'hospitals', 'shops', 'aid_centers', 'other_infrastructure',
-       'weather_related', 'floods', 'storm', 'fire', 'earthquake', 'cold',
-       'other_weather', 'direct_report']]
-
+    cat_df = df.drop(['id', 'message', 'original', 'genre'],axis=1)
     cat_counts = cat_df.sum()
     cat_names = cat_df.columns.tolist()
     cat_sort = [(c,n) for c,n in sorted(zip(cat_counts, cat_names))]

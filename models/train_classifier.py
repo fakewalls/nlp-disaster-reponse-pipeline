@@ -22,22 +22,8 @@ def load_data(database_filepath):
     engine = create_engine('sqlite:///' + str(database_filepath))
     df = pd.read_sql_query("select * from MessagesCategoriesClean;", engine)
     X = df['message'].values
-    y = df[['related', 'request', 'offer',
-           'aid_related', 'medical_help', 'medical_products', 'search_and_rescue',
-           'security', 'military', 'child_alone', 'water', 'food', 'shelter',
-           'clothing', 'money', 'missing_people', 'refugees', 'death', 'other_aid',
-           'infrastructure_related', 'transport', 'buildings', 'electricity',
-           'tools', 'hospitals', 'shops', 'aid_centers', 'other_infrastructure',
-           'weather_related', 'floods', 'storm', 'fire', 'earthquake', 'cold',
-           'other_weather', 'direct_report']].values
-    category_names = df[['related', 'request', 'offer',
-           'aid_related', 'medical_help', 'medical_products', 'search_and_rescue',
-           'security', 'military', 'child_alone', 'water', 'food', 'shelter',
-           'clothing', 'money', 'missing_people', 'refugees', 'death', 'other_aid',
-           'infrastructure_related', 'transport', 'buildings', 'electricity',
-           'tools', 'hospitals', 'shops', 'aid_centers', 'other_infrastructure',
-           'weather_related', 'floods', 'storm', 'fire', 'earthquake', 'cold',
-           'other_weather', 'direct_report']].columns.tolist()
+    y = df.drop(['id', 'message', 'original', 'genre'],axis=1).values
+    category_names = df.drop(['id', 'message', 'original', 'genre'],axis=1).columns.tolist()
 
     return X, y, category_names
 
@@ -63,12 +49,16 @@ def build_model():
         ('clf', MultiOutputClassifier(RandomForestClassifier(n_jobs=-1)))
         ])
     parameters = {
-        'clf__estimator__max_depth': (None, 1),
-        'clf__estimator__min_samples_split': (2, 3)
+        'clf__estimator__max_depth': [50, 75, 100],
+        'clf__estimator__min_samples_split': [2, 5, 10],
+        'clf__estimator__max_features': ['auto', 'sqrt'],
+        'clf__estimator__min_samples_leaf': [1, 2, 4],
+        'clf__estimator__n_estimators': [50, 75, 100],
+        'clf__estimator__bootstrap': [True]
     }
 
-    cv = GridSearchCV(pipeline, param_grid=parameters)
-    
+    cv = GridSearchCV(pipeline, param_grid=parameters, n_jobs=-1, verbose=2)
+
     return cv
 
 
@@ -97,12 +87,13 @@ def main():
         
         print('Training model...')
         model.fit(X_train, y_train)
-        
+        best_model = model.best_estimator_
+
         print('Evaluating model...')
-        evaluate_model(model, X_test, y_test, category_names)
+        evaluate_model(best_model, X_test, y_test, category_names)
 
         print('Saving model...\n    MODEL: {}'.format(model_filepath))
-        save_model(model, model_filepath)
+        save_model(best_model, model_filepath)
 
         print('Trained model saved!')
 
